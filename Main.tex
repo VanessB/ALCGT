@@ -1,0 +1,320 @@
+\documentclass[12pt]{article}
+%\usepackage[14pt]{extsizes}
+%\usepackage[a5paper, textwidth=12cm, textheight=17cm, headheight=14pt]{geometry}
+\usepackage[a4paper, left=2cm, right=2cm, top=2cm, bottom=2cm]{geometry}
+
+% Ссылки.
+\usepackage[unicode=true]{hyperref}
+
+% Продвинутые формулы.
+\usepackage{amsmath}
+
+% Продвинутые математические символы.
+\usepackage{amssymb}
+
+% Кастомизируемые теоремы.
+\usepackage{amsthm}
+%\usepackage{thmtools}
+
+% Русский язык.
+\usepackage{cmap}
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[russian]{babel}
+
+% Кастомизируемые хэдеры и футеры.
+%\usepackage{fancyhdr}
+
+% Табуляция перед первым параграфом.
+%\usepackage{indentfirst}
+
+% Нижнее подчёркивание с переносами.
+\usepackage[normalem]{ulem}
+
+% Графики gnuplot.
+\usepackage[shell, subfolder, cleanup]{gnuplottex}
+
+% Работа с плавающими объектами.
+\usepackage[section]{placeins}
+
+% Обтекаемые изображения
+\usepackage{wrapfig}
+
+% Ячейки на несколько строк.
+\usepackage{multirow}
+\usepackage{makecell}
+
+% Вращение.
+\usepackage{rotating}
+\usepackage{pdflscape}
+
+% Элементы на следующей странице.
+\usepackage{afterpage}
+
+% Задачи.
+\usepackage[lastexercise]{exercise}
+
+% Сброс счётчика.
+\usepackage{chngcntr}
+
+% Графика TikZ
+\usepackage{tikz}
+%\usepackage{tikz-qtree}
+%\usetikzlibrary{calc}
+\usetikzlibrary{trees,calc,arrows.meta,positioning,decorations.pathreplacing,bending,matrix}
+%\usetikzlibrary{trees}
+
+% Таблицы Юнга.
+\usepackage{ytableau}
+
+% Стрелки посреди отрезков.
+%\tikzset{
+%  % style to apply some styles to each segment of a path
+%  on each segment/.style={
+%    decorate,
+%    decoration={
+%      show path construction,
+%      moveto code={},
+%      lineto code={
+%        \path [#1]
+%        (\tikzinputsegmentfirst) -- (\tikzinputsegmentlast);
+%      },
+%      curveto code={
+%        \path [#1] (\tikzinputsegmentfirst)
+%        .. controls
+%        (\tikzinputsegmentsupporta) and (\tikzinputsegmentsupportb)
+%        ..
+%        (\tikzinputsegmentlast);
+%      },
+%      closepath code={
+%        \path [#1]
+%        (\tikzinputsegmentfirst) -- (\tikzinputsegmentlast);
+%      },
+%    },
+%  },
+%  % style to add an arrow in the middle of a path
+%  mid arrow/.style={postaction={decorate,decoration={
+%        markings,
+%        mark=at position .5 with {\arrow[#1]{stealth}}
+%      }}},
+%}
+
+% Enum и item на одной строке.
+\usepackage[inline]{enumitem}
+\setlist[1]{itemsep=0pt} % Величина разрыва между \item
+
+
+    %%%%%%%%%
+
+    % КОМАНДЫ
+
+    %%%%%%%%%
+
+
+\def\N{\mathbb{N}}
+\def\Z{\mathbb{Z}}
+\def\Q{\mathbb{Q}}
+\def\R{\mathbb{R}}
+\def\f{\mathcal{F}}
+\def\l{\mathcal{L}}
+\def\t{\mathcal{T}}
+\def\I{\mathbb{I}}
+\def\defarr{\overset{\triangle}{\Longleftrightarrow}}
+\def\defeq{\overset{\triangle}{=}}
+\def\symdiff{\,\triangle\,}
+\def\connected{\leftrightsquigarrow}
+
+\DeclareMathOperator{\diam}{\textnormal{diam}}
+\DeclareMathOperator{\rad}{\textnormal{rad}}
+\DeclareMathOperator*{\argmin}{\arg\min}
+\DeclareMathOperator*{\argmax}{\arg\max}
+\DeclareMathOperator*{\dom}{\textnormal{dom}}
+\DeclareMathOperator*{\range}{\textnormal{range}}
+
+% Правила вывода.
+\newcommand{\typerule}[2]{%
+  \begin{tabular}{c}
+  $#1$ \\
+  \hline
+  %\midrule
+  $#2$
+  \end{tabular}%
+}
+
+
+% Свой стиль хэдеров и футеров.
+%\pagestyle{fancy}
+%\fancyhead[L]{}
+%\fancyhead[R]{\leftmark}
+%\fancyhead[RE]{\leftmark}
+%\fancyhead[RO]{}
+
+%\cfoot{\thepage}
+
+% Заголовок упражнения.
+\renewcommand{\ExerciseHeader}
+{
+    \leftline
+    {
+        \textbf
+        {
+            %\large
+            Задача
+            \ExerciseHeaderNB \ExerciseHeaderDifficulty
+            \textit{\ExerciseHeaderTitle{}}
+            \ExerciseHeaderOrigin{}
+            \vspace{0.25\baselineskip}
+            %\smallskip{}
+            %\textit{\ExerciseName{}}
+        }
+    }
+}
+
+% Заголовок ответа.
+\renewcommand{\AnswerHeader}
+{
+    %\medskip
+    \leftline
+    {
+        \textbf
+        {
+            Решение задачи \ExerciseHeaderNB{}
+        }
+        \vspace{0.25\baselineskip}
+    }
+}
+
+% Пропуск после упражнения и ответа.
+\setlength{\ExerciseSkipBefore}{1.0\baselineskip}
+\setlength{\ExerciseSkipAfter}{1.0\baselineskip}
+\setlength{\AnswerSkipBefore}{0.0\baselineskip}
+\setlength{\AnswerSkipAfter}{1.0\baselineskip}
+
+% Счётчик для упражнений внутри секции.
+\newcounter{SecExercise}
+\counterwithin*{SecExercise}{section}
+%\counterwithin*{SecExercise}{subsection}
+
+% Inline item.
+\makeatletter
+\newcommand{\inlineitem}[1][]
+{%
+    \ifnum\enit@type=\tw@
+        {\descriptionlabel{#1}}
+        \hspace{\labelsep}%
+    \else
+        \ifnum\enit@type=\z@
+        \refstepcounter{\@listctr}\fi
+        \quad\@itemlabel\hspace{\labelsep}%
+\fi}
+\makeatother
+
+
+
+% Счётчик теорем и прочего.
+\newcounter{TheoremCounter}
+\counterwithin{TheoremCounter}{section}
+%\counterwithin*{TheoremCounter}{subsection}
+
+% Счётчики таблиц и фигур.
+\counterwithin{table}{section}
+\counterwithin{figure}{section}
+
+
+% Стиль определений.
+%\newtheoremstyle{definition:nopar}%
+%  {0.75\baselineskip}% (space above)
+%  {\baselineskip}% (space below)
+%  {}% (body font)
+%  {0.5\baselineskip}% (indent amount)
+%  {\bfseries}% {theorem head font}
+%  {.\\[0.25\baselineskip]}% {punctuation after theorem head}
+%  {.5em}% {space after theorem head}
+%  {\thmname{#1} \thmnumber{#2}\thmnote{ (\bfseries#3)}}% {theorem head spec}
+
+\newtheoremstyle{definition:nopar}%
+  {0.75\baselineskip}% (space above)
+  {\baselineskip}% (space below)
+  {}% (body font)
+  {0\baselineskip}% (indent amount)
+  {\bfseries}% {theorem head font}
+  {.}% {punctuation after theorem head}
+  {.5em}% {space after theorem head}
+  {\thmname{#1} \thmnumber{#2}\thmnote{ (\bfseries#3)}}% {theorem head spec}
+
+
+\theoremstyle{definition:nopar}
+\newtheorem{theorem}[TheoremCounter]{Теорема}
+\newtheorem{lemma}[TheoremCounter]{Лемма}
+\newtheorem{corollary}[TheoremCounter]{Следствие}
+\newtheorem{definition}[TheoremCounter]{Определение}
+\newtheorem{remark}[TheoremCounter]{Замечание}
+\newtheorem{statement}[TheoremCounter]{Утверждение}
+\newtheorem{problem}[TheoremCounter]{Задача}
+\newtheorem{example}[TheoremCounter]{Пример}
+
+% Доказательство с новой строки.
+\makeatletter
+\newenvironment{proofnl}[1][\proofname]{\par
+  \pushQED{\qed}%
+  \normalfont \topsep6\p@\@plus6\p@\relax
+  \trivlist
+  \item[\hskip\labelsep
+        \bfseries\itshape
+    #1\@addpunct{.}]\mbox{}\\*
+}{%
+  \popQED\endtrivlist\@endpefalse
+}
+\makeatother
+
+% Глава без номера
+\newcommand{\silentchapter}[1]{
+    \chapter*{#1}
+    \markboth{\MakeUppercase{#1}}{#1}
+    \addcontentsline{toc}{chapter}{#1}
+}
+
+% Секция без номера
+\newcommand{\silentsection}[1]{
+    \section*{#1}
+    \markboth{\MakeUppercase{#1}}{#1}
+    \addcontentsline{toc}{section}{#1}
+}
+
+% Выделение в определении
+%\newcommand{\defemph}[1]{\textbf{\textit{#1}}}
+\DeclareTextFontCommand{\defemph}{\bfseries\em}
+
+% Нумерация русскими буквами.
+\renewcommand{\alph}[1]{\asbuk{#1}}
+
+% Пространство между плавающими объектами.
+\setlength{\floatsep}{20pt}
+
+
+
+
+\title{Алгебра логики, комбинаторика и теория графов: семинары}
+\author{Бутаков~И.\,Д.}
+\date{2021}
+
+%\pagenumbering{gobble}
+
+\begin{document}
+
+\numberwithin{equation}{section}
+
+\maketitle
+
+\tableofcontents
+
+\include{chapters/intro}
+\include{chapters/boolean}
+\include{chapters/sets}
+\include{chapters/formal_systems}
+\include{chapters/graphs}
+\include{chapters/functions}
+\include{chapters/combinatorics}
+\include{chapters/relations}
+
+\end{document}
