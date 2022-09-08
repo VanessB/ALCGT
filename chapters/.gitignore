@@ -1,4 +1,7 @@
 *.aux
 *.log
-*.aut
+*.out
 *.toc
+*.pdf
+*.swp
+gnuplottex/

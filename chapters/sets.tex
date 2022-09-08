@@ -86,7 +86,7 @@
 \label{subsec:sets:logic}
 
 Исследуя базовые понятия теории множеств, мы совсем не рассматривали операции, которые можно над множествами совершать.
-В этом разделе мы убьём сразу двух зайцев: исследуем связь алгебры логики и теории множеств, а также наконец определим упомянутые операции.
+В этом разделе мы убьём сразу двух зайцев: исследуем связь алгебры логики и теории множеств, а также, наконец, определим упомянутые операции.
 
 Вернёмся к определению множества посредством задания условия.
 Понятно, что если юнивёрсум~--- $ \{ 0, 1 \} $, то $ f(x) $ в пункте \ref{itm:sets:condition}~--- булева функция.
@@ -155,12 +155,12 @@
     \center
     \begin{tabular}{|c|c|c|c|}
         \hline
-        Название & Обозначение & Описание & Формула \\
+        Название & Обозначение & Описание & Формула; $ \forall x \ldots $ \\
         \hline
         \hline
         Равенство                              & $ A = B $                              & \makecell{Все элементы $ A $ являются \\ элементами $ B $, и наоборот} & $ \I_A(x) \leftrightarrow \I_B(x) $ \\
         Подмножество                           & $ A \subseteq B $                      & \makecell{Все элементы $ A $ являются \\ элементами $ B $}             & $ \I_A(x) \rightarrow \I_B(x) $ \\
-        \makecell{Собственное \\ подмножество} & $ A \subset B $, $ A \varsubsetneq B $ & \makecell{Все элементы $ A $ являются \\ элементами $ B $, но $ A \neq B $} & \makecell{$ (\I_{A}(x) \rightarrow \I_B(x)) \wedge $ \\ $ \wedge \neg (\I_B(x) \rightarrow \I_A(x)) $} \\
+        \makecell{Строгое \\ подмножество}     & $ A \subset B $, $ A \varsubsetneq B $ & \makecell{Все элементы $ A $ являются \\ элементами $ B $, но $ A \neq B $} & \makecell{$ (\I_{A}(x) \rightarrow \I_B(x)) \wedge $ \\ $ \wedge \neg (\I_B(x) \rightarrow \I_A(x)) $} \\
         \hline
     \end{tabular}
     \caption{теоретико-множественные отношения}
@@ -277,7 +277,8 @@
 \begin{Answer}
     \noindent
     \begin{enumerate}[label=\arabic*)]
-    \item $ \mathbb{P} = \left \{ x \in \N \mid \neg \left( \exists a \exists b \, (x = a \cdot b) \wedge (a \neq 1) \wedge (a \neq x) \right) \wedge (x \neq 1) \right \} $
+    \item $ \mathbb{P} = \left \{ x \in \N \mid \neg \left( \exists a \exists b \, (x = a \cdot b) \wedge (a \neq 1) \wedge (a \neq x) \right) \wedge (x \neq 1) \right \} $.\\
+        По умолчанию считаем, что $ a $ и $ b $ принадлежат тому же юнивёрсуму, что и $ x $.
     \item $ S = \left\{ x \in 2^{\R} \mid \exists a \exists b \, (a \in \R) \wedge (b \in \R) \wedge \left( \forall c \, (a \leqslant c \leqslant b) \leftrightarrow (c \in x) \right) \right\} $
     \item $ R = \left\{ x \in \R \mid \exists a \exists b \exists c \, (a \in \Z) \wedge (b \in \Z) \wedge (c \in \Z) \wedge (a^2 + b^2 + c^2 \neq 0) \wedge (a x^2 + b x + c = 0) \right\} $.\\
           Если коэффициенты сделать произвольными, то, очевидно, получится $ \R $, так как любое число $ a $ является корнем $ x - a = 0 $.
@@ -328,8 +329,44 @@
     \[
         A \symdiff B = \underbrace{(A \cup B)}_{A} \setminus \underbrace{(A \cap B)}_{B} = A \setminus B
     \]
+    Наконец, проведём также лобовое доказательство через проверку тавтологичности следующей формулы:
+    \[
+        (b \rightarrow a) \rightarrow \left( (a \wedge \neg b) \leftrightarrow (a \oplus b) \right)
+    \]
+    Здесь введены обозначения $ a = \I_A(x) $, $ b = \I_B(x) $.
+    Используя закон де Моргана, а также тождества $ x \to y = \neg x \vee y $ и $ x \oplus y = \neg (x \leftrightarrow y) $, перепишем формулу в виде
+    \[
+        (b \rightarrow a) \rightarrow \left( \neg (a \rightarrow b) \leftrightarrow \neg (a \leftrightarrow b) \right)
+    \]
+    Операция <<$ \leftrightarrow $>> позволяет убрать отрицания с обоих аргументов:
+    \[
+        (b \rightarrow a) \rightarrow \left( (a \rightarrow b) \leftrightarrow (a \leftrightarrow b) \right)
+    \]
+    Воспользуенмся дистрибутивностью импликации относительно эквивалентности (см. конец решения задачи \ref{ex:boolean:disjunction_distributivity_over_equivalence}):
+    \[
+        \left[ (b \rightarrow a) \rightarrow (a \rightarrow b) \right] \leftrightarrow \left[ (b \rightarrow a) \rightarrow (a \leftrightarrow b) \right]
+    \]
+    Перепишем эквивалентность в последней скобке через конъюнкцию импликаций
+    и воспользуемся дистрибутивностью импликации относительно конъюнкции:
+    \[
+        \left[ (b \rightarrow a) \rightarrow (a \rightarrow b) \right] \leftrightarrow \left[ (b \rightarrow a) \rightarrow \left( (a \rightarrow b) \wedge (b \rightarrow a) \right) \right]
+    \]
+    \[
+        \left[ (b \rightarrow a) \rightarrow (a \rightarrow b) \right] \leftrightarrow
+        \left[ \left( (b \rightarrow a) \rightarrow (a \rightarrow b) \right) \wedge \left( (b \rightarrow a) \rightarrow (b \rightarrow a) \right) \right]
+    \]
+    Второй операнд конъюнкции тавтологичен, и формула, наконец, упрощается:
+    \[
+        \left[ (b \rightarrow a) \rightarrow (a \rightarrow b) \right] \leftrightarrow
+        \left[ (b \rightarrow a) \rightarrow (a \rightarrow b) \right]
+    \]
+    Здесь тавтологичность уже очевидна в силу равенства формул для левой и правой частей.
 \end{Answer}
 
+Третий способ доказательства в предыдущей задаче получился самым громоздким, но самым формальным,
+а потому подвластным компьютеру (см. автоматические доказательства теорем).
+Более того, в нём еще раз была продемонстрирована красивое свойство логики:
+возможность формально описывать саму себя на своём языке.
 
 \begin{Exercise}[counter=SecExercise]
     \noindent

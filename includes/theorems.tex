@@ -1,0 +1,23 @@
+%% Настройки пакета asmthm.
+
+% Счётчик теорем и прочего.
+\newcounter{TheoremCounter}
+\counterwithin{TheoremCounter}{section}
+%\counterwithin*{TheoremCounter}{subsection}
+
+% Счётчики таблиц и фигур.
+\counterwithin{table}{section}
+\counterwithin{figure}{section}
+
+
+% Теоремы, определения, замечания и так далее.
+\newtheorem{theorem}[TheoremCounter]{Теорема}
+\newtheorem{lemma}[TheoremCounter]{Лемма}
+\newtheorem{corollary}[TheoremCounter]{Следствие}
+\newtheorem{definition}[TheoremCounter]{Определение}
+\newtheorem{remark}[TheoremCounter]{Замечание}
+\newtheorem{statement}[TheoremCounter]{Утверждение}
+\newtheorem{problem}[TheoremCounter]{Задача}
+\newtheorem{example}[TheoremCounter]{Пример}
+
+

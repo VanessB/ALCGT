@@ -67,38 +67,6 @@
 % Таблицы Юнга.
 \usepackage{ytableau}
 
-% Стрелки посреди отрезков.
-%\tikzset{
-%  % style to apply some styles to each segment of a path
-%  on each segment/.style={
-%    decorate,
-%    decoration={
-%      show path construction,
-%      moveto code={},
-%      lineto code={
-%        \path [#1]
-%        (\tikzinputsegmentfirst) -- (\tikzinputsegmentlast);
-%      },
-%      curveto code={
-%        \path [#1] (\tikzinputsegmentfirst)
-%        .. controls
-%        (\tikzinputsegmentsupporta) and (\tikzinputsegmentsupportb)
-%        ..
-%        (\tikzinputsegmentlast);
-%      },
-%      closepath code={
-%        \path [#1]
-%        (\tikzinputsegmentfirst) -- (\tikzinputsegmentlast);
-%      },
-%    },
-%  },
-%  % style to add an arrow in the middle of a path
-%  mid arrow/.style={postaction={decorate,decoration={
-%        markings,
-%        mark=at position .5 with {\arrow[#1]{stealth}}
-%      }}},
-%}
-
 % Enum и item на одной строке.
 \usepackage[inline]{enumitem}
 \setlist[1]{itemsep=0pt} % Величина разрыва между \item
@@ -111,25 +79,18 @@
     %%%%%%%%%
 
 
-\def\N{\mathbb{N}}
-\def\Z{\mathbb{Z}}
-\def\Q{\mathbb{Q}}
-\def\R{\mathbb{R}}
-\def\f{\mathcal{F}}
-\def\l{\mathcal{L}}
-\def\t{\mathcal{T}}
-\def\I{\mathbb{I}}
-\def\defarr{\overset{\triangle}{\Longleftrightarrow}}
-\def\defeq{\overset{\triangle}{=}}
-\def\symdiff{\,\triangle\,}
-\def\connected{\leftrightsquigarrow}
+% Специальные обозначения бкув.
+\input{includes/letters.tex}
 
-\DeclareMathOperator{\diam}{\textnormal{diam}}
-\DeclareMathOperator{\rad}{\textnormal{rad}}
-\DeclareMathOperator*{\argmin}{\arg\min}
-\DeclareMathOperator*{\argmax}{\arg\max}
-\DeclareMathOperator*{\dom}{\textnormal{dom}}
-\DeclareMathOperator*{\range}{\textnormal{range}}
+% Математические символы и прочие дефайны.
+\input{includes/defines.tex}
+
+% Настройки пакета с упражнениями.
+\input{includes/exercise.tex}
+
+% Настройки пакета asmthm.
+\input{includes/theorems.tex}
+
 
 % Правила вывода.
 \newcommand{\typerule}[2]{%
@@ -141,59 +102,6 @@
   \end{tabular}%
 }
 
-
-% Свой стиль хэдеров и футеров.
-%\pagestyle{fancy}
-%\fancyhead[L]{}
-%\fancyhead[R]{\leftmark}
-%\fancyhead[RE]{\leftmark}
-%\fancyhead[RO]{}
-
-%\cfoot{\thepage}
-
-% Заголовок упражнения.
-\renewcommand{\ExerciseHeader}
-{
-    \leftline
-    {
-        \textbf
-        {
-            %\large
-            Задача
-            \ExerciseHeaderNB \ExerciseHeaderDifficulty
-            \textit{\ExerciseHeaderTitle{}}
-            \ExerciseHeaderOrigin{}
-            \vspace{0.25\baselineskip}
-            %\smallskip{}
-            %\textit{\ExerciseName{}}
-        }
-    }
-}
-
-% Заголовок ответа.
-\renewcommand{\AnswerHeader}
-{
-    %\medskip
-    \leftline
-    {
-        \textbf
-        {
-            Решение задачи \ExerciseHeaderNB{}
-        }
-        \vspace{0.25\baselineskip}
-    }
-}
-
-% Пропуск после упражнения и ответа.
-\setlength{\ExerciseSkipBefore}{1.0\baselineskip}
-\setlength{\ExerciseSkipAfter}{1.0\baselineskip}
-\setlength{\AnswerSkipBefore}{0.0\baselineskip}
-\setlength{\AnswerSkipAfter}{1.0\baselineskip}
-
-% Счётчик для упражнений внутри секции.
-\newcounter{SecExercise}
-\counterwithin*{SecExercise}{section}
-%\counterwithin*{SecExercise}{subsection}
 
 % Inline item.
 \makeatletter
@@ -209,63 +117,6 @@
 \fi}
 \makeatother
 
-
-
-% Счётчик теорем и прочего.
-\newcounter{TheoremCounter}
-\counterwithin{TheoremCounter}{section}
-%\counterwithin*{TheoremCounter}{subsection}
-
-% Счётчики таблиц и фигур.
-\counterwithin{table}{section}
-\counterwithin{figure}{section}
-
-
-% Стиль определений.
-%\newtheoremstyle{definition:nopar}%
-%  {0.75\baselineskip}% (space above)
-%  {\baselineskip}% (space below)
-%  {}% (body font)
-%  {0.5\baselineskip}% (indent amount)
-%  {\bfseries}% {theorem head font}
-%  {.\\[0.25\baselineskip]}% {punctuation after theorem head}
-%  {.5em}% {space after theorem head}
-%  {\thmname{#1} \thmnumber{#2}\thmnote{ (\bfseries#3)}}% {theorem head spec}
-
-\newtheoremstyle{definition:nopar}%
-  {0.75\baselineskip}% (space above)
-  {\baselineskip}% (space below)
-  {}% (body font)
-  {0\baselineskip}% (indent amount)
-  {\bfseries}% {theorem head font}
-  {.}% {punctuation after theorem head}
-  {.5em}% {space after theorem head}
-  {\thmname{#1} \thmnumber{#2}\thmnote{ (\bfseries#3)}}% {theorem head spec}
-
-
-\theoremstyle{definition:nopar}
-\newtheorem{theorem}[TheoremCounter]{Теорема}
-\newtheorem{lemma}[TheoremCounter]{Лемма}
-\newtheorem{corollary}[TheoremCounter]{Следствие}
-\newtheorem{definition}[TheoremCounter]{Определение}
-\newtheorem{remark}[TheoremCounter]{Замечание}
-\newtheorem{statement}[TheoremCounter]{Утверждение}
-\newtheorem{problem}[TheoremCounter]{Задача}
-\newtheorem{example}[TheoremCounter]{Пример}
-
-% Доказательство с новой строки.
-\makeatletter
-\newenvironment{proofnl}[1][\proofname]{\par
-  \pushQED{\qed}%
-  \normalfont \topsep6\p@\@plus6\p@\relax
-  \trivlist
-  \item[\hskip\labelsep
-        \bfseries\itshape
-    #1\@addpunct{.}]\mbox{}\\*
-}{%
-  \popQED\endtrivlist\@endpefalse
-}
-\makeatother
 
 % Глава без номера
 \newcommand{\silentchapter}[1]{
@@ -308,13 +159,13 @@
 
 \tableofcontents
 
-\include{chapters/intro}
-\include{chapters/boolean}
-\include{chapters/sets}
-\include{chapters/formal_systems}
-\include{chapters/graphs}
-\include{chapters/functions}
-\include{chapters/combinatorics}
-\include{chapters/relations}
+\include{chapters/intro}          % Введение.
+\include{chapters/boolean}        % Булева алгебра.
+\include{chapters/sets}           % Теория множеств.
+\include{chapters/formal_systems} % Формальные системы.
+\include{chapters/graphs}         % Графы.
+\include{chapters/functions}      % Функции.
+\include{chapters/combinatorics}  % Комбинаторика.
+\include{chapters/relations}      % Отношения.
 
 \end{document}

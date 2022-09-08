@@ -1,0 +1,46 @@
+%% Настройки пакета с упражнениями.
+
+% Заголовок упражнения.
+\renewcommand{\ExerciseHeader}
+{
+    \leftline
+    {
+        \textbf
+        {
+            %\large
+            Задача
+            \ExerciseHeaderNB \ExerciseHeaderDifficulty
+            \textit{\ExerciseHeaderTitle{}}
+            \ExerciseHeaderOrigin{}
+            \vspace{0.25\baselineskip}
+            %\smallskip{}
+            %\textit{\ExerciseName{}}
+        }
+    }
+}
+
+% Заголовок ответа.
+\renewcommand{\AnswerHeader}
+{
+    %\medskip
+    \leftline
+    {
+        \textbf
+        {
+            Решение задачи \ExerciseHeaderNB{}
+        }
+        \vspace{0.25\baselineskip}
+    }
+}
+
+% Пропуск после упражнения и ответа.
+\setlength{\ExerciseSkipBefore}{1.0\baselineskip}
+\setlength{\ExerciseSkipAfter}{1.0\baselineskip}
+\setlength{\AnswerSkipBefore}{0.0\baselineskip}
+\setlength{\AnswerSkipAfter}{1.0\baselineskip}
+
+% Счётчик для упражнений внутри секции.
+\newcounter{SecExercise}
+\counterwithin*{SecExercise}{section}
+%\counterwithin*{SecExercise}{subsection}
+
