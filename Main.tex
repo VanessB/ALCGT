@@ -6,6 +6,9 @@
 % Ссылки.
 \usepackage[unicode=true]{hyperref}
 
+% Улучшенные сноски.
+\usepackage{footmisc}
+
 % Продвинутые формулы.
 \usepackage{amsmath}
 
@@ -43,6 +46,9 @@
 % Ячейки на несколько строк.
 \usepackage{multirow}
 \usepackage{makecell}
+
+% Таблица с регулируемой шириной столбцов и работающими сносками.
+\usepackage{tabularx}
 
 % Вращение.
 \usepackage{rotating}
@@ -94,12 +100,12 @@
 
 % Правила вывода.
 \newcommand{\typerule}[2]{%
-  \begin{tabular}{c}
-  $#1$ \\
-  \hline
-  %\midrule
-  $#2$
-  \end{tabular}%
+    \begin{tabular}{c}
+    $#1$ \\
+    \hline
+    %\midrule
+    $#2$
+    \end{tabular}%
 }
 
 
@@ -131,6 +137,13 @@
     \markboth{\MakeUppercase{#1}}{#1}
     \addcontentsline{toc}{section}{#1}
 }
+
+\newcommand{\silentsubsection}[1]{
+    \subsection*{#1}
+    \markboth{\MakeUppercase{#1}}{#1}
+    \addcontentsline{toc}{subsection}{#1}
+}
+
 
 % Выделение в определении
 %\newcommand{\defemph}[1]{\textbf{\textit{#1}}}

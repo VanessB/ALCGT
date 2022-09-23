@@ -129,13 +129,17 @@
     \[
         \typerule{A \rightarrow B, \quad (A \rightarrow B) \rightarrow \neg (B \rightarrow A)}{\neg (B \rightarrow A)}
     \]
+    % Применим правило контрапозиции:
+    % \[
+    %     \typerule{A \rightarrow (B \rightarrow A)}{\neg (B \rightarrow A) \rightarrow \neg A}
+    % \]
+    % Наконец,
+    % \[
+    %     \typerule{\neg (B \rightarrow A) \rightarrow \neg A, \quad \neg (B \rightarrow A)}{\neg A}
+    % \]
     Правило <<от противного>>:
     \[
-        \typerule{A \rightarrow (B \rightarrow A)}{\neg (B \rightarrow A) \rightarrow \neg A} \qquad
-    \]
-    Наконец,
-    \[
-        \typerule{\neg (B \rightarrow A) \rightarrow \neg A, \quad \neg (B \rightarrow A)}{\neg A}
+        \typerule{A \rightarrow (B \rightarrow A), \quad \neg (B \rightarrow A)}{\neg A}
     \]
 \end{Answer}
 
@@ -195,7 +199,7 @@
 
 \begin{Exercise}[counter=SecExercise]
     \noindent
-    Докажите, что если у числоой последовательности есть предел, то он единственнен.
+    Докажите, что если у числовой последовательности есть предел, то он единственнен.
 \end{Exercise}
 
 \begin{Answer}
@@ -240,3 +244,47 @@
     \]
     Итого, по индукции доказано.
 \end{Answer}
+
+
+Заметим, что с математическими утверждениями следует работать аккуратно;
+часто встречаются ошибки, связанные с опусканием или неправильной перестановкой кванторов.
+
+\begin{Exercise}[counter=SecExercise]
+    \noindent
+    Убедитесь в истинности утверждения (при произвольных $ A $ и $ B $):
+    \begin{equation}
+        \label{eq:formal_systems:tautological_example}
+        (A \rightarrow B) \vee (B \rightarrow A)
+    \end{equation}
+    Зафиксируем произвольную параболу.
+    Пусть A~--- утверждение <<ветви параболы направлены вверх>>,
+    а $ B $~--- <<парабола пересекает $ 0 $ (прямую $ y = 0 $)>>.
+    Проследите за следующими рассуждениями.
+    Утверждение <<если ветви параболы направлены вверх, то парабола пересекает 0>>, очевидно, ложно;
+    тогда истинным должно быть утверждение <<если парабола пересекает $ 0 $, то ветви параболы направлены вверх>>, но оно также ложно.
+    То есть оба утверждения в дизъюнкции \eqref{eq:formal_systems:tautological_example} ложны
+    (при некотором выборе утверждений A и B), но сама дизъюнкция истинна!
+    Найдите ошибку в рассуждениях.
+\end{Exercise}
+
+\begin{Answer}
+    \noindent
+    Действительно, \eqref{eq:formal_systems:tautological_example} тавтологична независимо от выбора $ A $ и $ B $:
+    \[
+        (A \rightarrow B) \vee (B \rightarrow A) = \neg A \vee B \vee \neg B \vee A = \neg A \vee A \vee \neg B \vee B = 1 \vee 1 = 1
+    \]
+    Ошибка в рассуждениях заключается в неправильной работе с кванторами.
+    Пусть $ P(x) $~--- <<ветви параболы $ x $ направлены вверх>>,
+    а $ Q(x) $~--- <<парабола $ x $ пересекает прямую $ y = 0 $>>.
+    Тогда $ A = \forall x \, P(x) $, $ B = \forall x \, Q(x) $.
+    Рассуждения всего-навсего доказывают следующее неравенство:
+    \[
+        \left[ \forall x \, (P(x) \rightarrow Q(x)) \right] \vee \left[ \forall x \, (Q(x) \rightarrow P(x)) \right] \neq
+        (\underbrace{\forall x \, P(x)}_{A} \rightarrow \underbrace{\forall x \, Q(x)}_{B}) \vee (\forall x \, Q(x) \rightarrow \forall x \, P(x))
+    \]
+    Действительно, под формулу \eqref{eq:formal_systems:tautological_example} подходит только правая часть неравенства,
+    так как в левой части в импликациях стоят не утверждения (предикаты арности ноль), а унарные предикаты.
+
+    Таким образом, рассуждения в условии лишь иллюстрируют невозможность (в общем случае) <<вноса>> квантора всеобщности внутрь импликации.
+\end{Answer}
+
