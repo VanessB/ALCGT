@@ -85,14 +85,20 @@
     %%%%%%%%%
 
 
-% Специальные обозначения бкув.
-\input{includes/letters.tex}
-
 % Математические символы и прочие дефайны.
 \input{includes/defines.tex}
 
 % Настройки пакета с упражнениями.
 \input{includes/exercise.tex}
+
+% Картинки.
+\input{includes/figures.tex}
+
+% Специальные обозначения бкув.
+\input{includes/letters.tex}
+
+% Разделы без номеров.
+\input{includes/silent_sections.tex}
 
 % Настройки пакета asmthm.
 \input{includes/theorems.tex}
@@ -124,27 +130,6 @@
 \makeatother
 
 
-% Глава без номера
-\newcommand{\silentchapter}[1]{
-    \chapter*{#1}
-    \markboth{\MakeUppercase{#1}}{#1}
-    \addcontentsline{toc}{chapter}{#1}
-}
-
-% Секция без номера
-\newcommand{\silentsection}[1]{
-    \section*{#1}
-    \markboth{\MakeUppercase{#1}}{#1}
-    \addcontentsline{toc}{section}{#1}
-}
-
-\newcommand{\silentsubsection}[1]{
-    \subsection*{#1}
-    \markboth{\MakeUppercase{#1}}{#1}
-    \addcontentsline{toc}{subsection}{#1}
-}
-
-
 % Выделение в определении
 %\newcommand{\defemph}[1]{\textbf{\textit{#1}}}
 \DeclareTextFontCommand{\defemph}{\bfseries\em}
@@ -160,7 +145,7 @@
 
 \title{Алгебра логики, комбинаторика и теория графов: семинары}
 \author{Бутаков~И.\,Д.}
-\date{2021}
+\date{2022}
 
 %\pagenumbering{gobble}
 
@@ -180,5 +165,7 @@
 \include{chapters/functions}      % Функции.
 \include{chapters/combinatorics}  % Комбинаторика.
 \include{chapters/relations}      % Отношения.
+
+\include{chapters/exercises}      % Указатель для задач.
 
 \end{document}

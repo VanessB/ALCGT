@@ -1,0 +1,21 @@
+% Глава без номера.
+\newcommand{\silentchapter}[1]{
+    \chapter*{#1}
+    \markboth{\MakeUppercase{#1}}{#1}
+    \addcontentsline{toc}{chapter}{#1}
+}
+
+% Секция без номера.
+\newcommand{\silentsection}[1]{
+    \section*{#1}
+    \markboth{\MakeUppercase{#1}}{#1}
+    \addcontentsline{toc}{section}{#1}
+}
+
+% Подсекция без номера.
+\newcommand{\silentsubsection}[1]{
+    \subsection*{#1}
+    \markboth{\MakeUppercase{#1}}{#1}
+    \addcontentsline{toc}{subsection}{#1}
+}
+
