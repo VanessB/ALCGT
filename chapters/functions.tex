@@ -7,7 +7,7 @@
 Сопоставляемый объект не обязан быть уникальным, однако не может быть ситуации, когда одному элементу сопоставляются два и более.
 
 Например, если некоторому действительному числу мы сопоставляем его квадрат, то это правило сопоставления~--- функция.
-Если же мы попытаемся каждому положительному действительному числу $ y $ сопоставить решние уравнения $ x^2 = y $, то натолкнёмся на проблему неоднозначности:
+Если же мы попытаемся каждому положительному действительному числу $ y $ сопоставить решение уравнения $ x^2 = y $, то натолкнёмся на проблему неоднозначности:
 функции не получается.
 
 \subsection{Формальное определение}
@@ -32,7 +32,7 @@
     \label{definition:functions:function}
     \defemph{Функцией (частичной функцией)}, принимающей аргументы из множества $ X $ и значения во множестве $ Y $,
     называется подмножество $ f \subseteq X \times Y $ такое, что ни у каких двух пар из $ f $ первый элемент не совпадает.
-    \newline
+    \\[0.25\baselineskip]
     Если $ x \in X $ и $ \exists y \in Y: (x, y) \in f $, то говорят, что функция $ f $ \defemph{определена} в точке $ x $, и $ f(x) = y $.
 \end{definition}
 
@@ -97,6 +97,129 @@ $ f: x \mapsto f(x) $.
     $ f(X) = f(\dom(f)) = \range(f) $, $ f^{-1}(Y) = f^{-1}(\range(f)) = \dom(f) $.
 \end{remark}
 
+
+\begin{Exercise}[counter=SecExercise, label={exercise:functions:sets_examples}]
+    \noindent
+    Частичная функция $ f $ из множества $ \{1, 2, \ldots, 8 \} $ в множество $ \{a, b, \ldots, e \} $ определена следующим образом:
+    \[
+        f: 1 \mapsto a, \quad 2 \mapsto a, \quad 3 \mapsto c, \quad 4 \mapsto d, \quad 5 \mapsto c, \quad 7 \mapsto d.
+    \]
+    Найдите
+    \begin{enumerate}[label=\textbf{\alph*)}]
+        \item $ \dom(f) $;
+        \inlineitem $ \range(f) $;
+        \inlineitem $ f(\{1, 2, 3\}) $;
+        \inlineitem $ f^{-1}(c) $;
+        \inlineitem $ f(\{1, 2, 3, 5, 6\}) $;
+        \item $ f^{-1}(\{a, b, c\}) $.
+    \end{enumerate}
+\end{Exercise}
+
+\begin{Answer}
+    \noindent
+    \begin{enumerate}[label=\textbf{\alph*)}]
+        \item $ \dom(f) = \{1, 2, 3, 4, 5, 7\} $;
+        \inlineitem $ \range(f) = \{a, c, d\} $;
+        \inlineitem $ f(\{1, 2, 3\}) = \{a, c\} $;
+        \item $ f^{-1}(c) = \{3, 5\} $;
+        \inlineitem $ f(\{1, 2, 3, 5, 6\}) = \{a, c\} $;
+        \inlineitem $ f^{-1}(\{a, b, c\}) = \{1, 2, 3, 5\} $.
+    \end{enumerate}
+\end{Answer}
+
+
+\begin{Exercise}[counter=SecExercise, label={exercise:functions:max_prime_devisor}]
+    \noindent
+    Частичная функция $ g $ из множества положительных целых чисел в множество положительных целых чисел
+    сопоставляет числу $ x $ наибольший простой делитель $ x $.
+    \begin{enumerate}[label=\textbf{\alph*)}]
+        \item Какова область определения $ g $?
+        \item Верно ли, что если $ X $~--- конечное, то и $ g^{-1}(X) $ конечное?
+        \item Найдите $ g^{-1}(3) $.
+    \end{enumerate}
+\end{Exercise}
+
+\begin{Answer}
+    \noindent
+    \begin{enumerate}[label=\textbf{\alph*)}]
+        \item
+            Единица~--- единственное положительное число, не имеющее простых делителей.
+            Поэтому $ \dom(f) = \N $.
+        \item
+            Нет, неверно.
+            Пример~--- $ f^{-1}(\{ 2 \}) = \{ 2^n \mid n \in \N \} $.
+            Действительно, у всех положительных целых степеней двойки, причём только у них, наибольший простой делитель~--- $ 2 $.
+        \item
+            Аналогично предыдущему пункту замечаем, что $ f^{-1}(\{ 3 \}) = \{ 2^n 3^m \mid n \in \N_0, \; m \in \N \} $.
+            Действительно, раз наибольший простой делитель~--- $ 3 $,
+            никаких простых делителей, кроме $ 2 $ и $ 3 $ быть не может,
+            причём тройка обязана присутствовать в качестве делителя.
+    \end{enumerate}
+\end{Answer}
+
+
+\begin{Exercise}[counter=SecExercise, label={exercise:functions:set_operations}]
+    \noindent
+    Пусть $ f $~--- частичная функция из множества $ A $ в множество $ B $,
+    $ X, Y \subseteq A $, $ U, V \subseteq B $.
+    Верны ли для любых множеств $ f, A, B, X, Y, U, V $ следующие утверждения:
+    \begin{enumerate}[label=\textbf{\alph*)}]
+        \item $ f (X \cup Y) = f (X) \cup f (Y) $;
+        \item из равенства $ f(X) = f(Y) $ следует $ X \cap Y \neq \varnothing $;
+        \item $ f^{-1}(U \cap V) = f^{-1}(U) \cap f^{-1}(V) $;
+        \item из равенства $ f^{-1}(U) = f^{-1}(V) $ следует $ U = V $.
+    \end{enumerate}
+\end{Exercise}
+
+\begin{Answer}
+    \noindent
+    \begin{enumerate}[label=\textbf{\alph*)}]
+        \item
+            Верно:
+            \begin{multline*}
+                f(X \cup Y) = \{ z \mid \exists x \in X \cup Y: f(x) = z \} = \\
+                = \{z \mid \left(\exists x \in X: f(x) = z \right) \vee \left( \exists y \in Y: f(y) = z \right) \} = f(X) \cup f(Y)
+            \end{multline*}
+        \item
+            \label{item:functions:constant_mapping}
+            Неверно: рассмотрим $ f: \R \ni x \mapsto 0 $ и $ X = Y = \R $.
+            Тогда $ f(X) = f(Y) = \{ 0 \} $, но $ X \cap Y \neq \varnothing $.
+        \item
+            Верно:
+            \begin{multline*}
+                f^{-1}(U \cap V) = \{ x \mid f(x) \in U \cap V \} = \\
+                = \{x \mid (f(x) \in U) \wedge (f(x) \in V) \} = f^{-1}(U) \cap f^{-1}(V)
+            \end{multline*}
+        \item
+            Неверно: рассмотрим тот же пример функции, что и в пункте \ref{item:functions:constant_mapping}.
+            В качестве $ U $ и $ V $ возьмём $ \{0\} $ и $ \{0, 1\} $ соответственно.
+            Тогда $ f^{-1}(U) = f^{-1}(V) = \R $, но $ U \neq V $.
+    \end{enumerate}
+\end{Answer}
+
+
+\begin{Exercise}[counter=SecExercise, label={exercise:functions:map_unmap}]
+    \noindent
+    Частичная функция $ f $ определена на множестве $ X $ и принимает
+    значения в множестве $ Y $, при этом $ B \subseteq Y $.
+    Какой знак сравнения можно поставить вместо <<?>>, чтобы утверждение <<$ f (f^{-1}(B)) \; ? \; B $>> стало верным?
+\end{Exercise}
+
+\begin{Answer}
+    \noindent
+    Покажем, что можно поставить знак <<$ = $>>
+    (и, как следствие, <<$ \subset $>> и <<$ \supset $>>).
+    \[
+        y \in f(f^{-1}(B)) \quad \Longleftrightarrow \quad \exists x \in f^{-1}(B): f(x) = y
+    \]
+    Но $ x \in f^{-1}(B) \; \Longleftrightarrow \; f(x) \in B $.
+    Тогда
+    \[
+        \exists x \in f^{-1}(B): f(x) = y \quad \Longleftrightarrow \quad y \in B
+    \]
+    Таким образом, $ y \in B \; \Longleftrightarrow \; y \in f(f^{-1}(B)) $,
+    что и означает $ B = f(f^{-1}(B)) $.
+\end{Answer}
 
 \subsection{Отображения}
 \label{subsec:functions:mappings}
@@ -183,7 +306,7 @@ $ f: x \mapsto f(x) $.
     Предлагаю вам самим это проверить.
 \end{Answer}
 
-\begin{Exercise}[counter=SecExercise]
+\begin{Exercise}[counter=SecExercise, label={exercise:functions:infinite_surjection}]
     \noindent
     Приведите пример сюръективного преобразования $ f: \N \to \N $ такого, что полный прообраз каждого элемента $ \N $ бесконечен.
 \end{Exercise}
@@ -195,9 +318,11 @@ $ f: x \mapsto f(x) $.
     Для оставшихся чисел повторим операцию, и так далее.
 
     Пусть теперь $ f $ сопоставляет числу номер шага, на котором его вычеркнули.
-    Это действительно отображение, так как после каждого шага минимум среди невычеркнутых чисел растёт, из чего следует, что любое число будет вычеркнуто на каком-то шаге.
-    Это действительно сюръекция, так как на любом шаге остаётся бесконечное число чисел~--- процесс никогда не прекратится.
-    И, наконец, полным прообразом каждого элемента $ \N $ будет бесконечное множество, так как на каждом шаге вычёркивается бесконечное множество чисел.
+    Это действительно отображение, так как после каждого шага минимальное число среди невычеркнутых растёт,
+    из чего следует, что любое число будет вычеркнуто на каком-то шаге.
+    Это действительно сюръекция, так как на любом шаге вычёркивается хотя бы одно число.
+    И, наконец, полным прообразом каждого элемента $ \N $ будет бесконечное множество,
+    так как на каждом шаге вычёркивается бесконечное множество чисел.
 \end{Answer}
 
 
@@ -298,7 +423,6 @@ $ f: x \mapsto f(x) $.
     \label{definition:functions:cardinaluty_compare}
     В случае существования инъекции $ f: A \to B $ говорят, что \defemph{$ B $ не менее мощно, чем $ A $}.
     Это обозначается как $ |A| \leqslant |B| $.
-    \newline
     При этом по определению полагают $ (|A| < |B|) \defarr (|A| \leqslant |B|) \wedge (|A| \neq |B|) $.
 \end{definition}
 
