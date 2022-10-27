@@ -84,11 +84,12 @@ $ f: x \mapsto f(x) $.
 \begin{definition}
     \defemph{Образом} некоторого подмножества $ A \subseteq X $ называется множество
     \[
-        f(A) = \{ y \in Y \mid \exists x \in X: f(x) = y \}
+        f(A) = \{ y \in Y \mid \exists x \in A: f(x) = y \}
     \]
     \defemph{Полным прообразом} некоторого подмножества $ B \subseteq Y $ называется множество
     \[
-        f^{-1}(B) = \{ x \in X \mid \exists y \in Y: f(x) = y \}
+        f^{-1}(B) = %\{ x \in X \mid \exists y \in B: f(x) = y \} =
+        \{ x \in X \mid f(x) \in B \}
     \]
     \defemph{Полным прообразом} некоторого элемента $ y \in Y $ называется полный прообраз множества $ \{ y \} $.
 \end{definition}
