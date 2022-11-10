@@ -208,18 +208,30 @@ $ f: x \mapsto f(x) $.
 
 \begin{Answer}
     \noindent
-    Покажем, что можно поставить знак <<$ = $>>
-    (и, как следствие, <<$ \subset $>> и <<$ \supset $>>).
+    Покажем, что можно поставить знак <<$ \subseteq $>>.
     \[
         y \in f(f^{-1}(B)) \quad \Longleftrightarrow \quad \exists x \in f^{-1}(B): f(x) = y
     \]
     Но $ x \in f^{-1}(B) \; \Longleftrightarrow \; f(x) \in B $.
     Тогда
     \[
-        \exists x \in f^{-1}(B): f(x) = y \quad \Longleftrightarrow \quad y \in B
+        \exists x \in f^{-1}(B): f(x) = y
+        %\quad \Longleftrightarrow \quad \exists x: f(x) = y \in B
+        \quad \Longleftrightarrow \quad
+        \begin{cases}
+            \exists x: f(x) = y \\
+            y \in B
+        \end{cases}
+        \quad \Longrightarrow \quad
+        y \in B
     \]
-    Таким образом, $ y \in B \; \Longleftrightarrow \; y \in f(f^{-1}(B)) $,
-    что и означает $ B = f(f^{-1}(B)) $.
+    Таким образом, $ y \in f(f^{-1}(B)) \; \Longrightarrow \; y \in B $,
+    что и означает $ f(f^{-1}(B)) \subseteq B $.
+
+    Контрпример для равенства можно взять тривиальный: $ f = \varnothing $, $ B \neq \varnothing $.
+    Тогда $ f(f^{-1}(B)) = \varnothing \neq B $.
+    Также, раз нельзя поставить знак <<$ = $>>,
+    то нельзя и <<$ \supseteq $>>.
 \end{Answer}
 
 \subsection{Отображения}
