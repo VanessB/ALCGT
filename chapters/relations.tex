@@ -10,8 +10,10 @@
 \]
 Иначе говоря, любому элементу из $ X $ ставится в соответствее не более одного элемента из $ Y $.
 Однако это довольно сильное ограничение.
-Из-за него, например, функциями невозможно описать отношения между некоторыми студентами и их увлечениями;
-действительно, любой студент вполне может иметь несколько интересных ему занятий.
+Например, функциями невозможно описать отношения между некоторыми студентами и их увлечениями:
+любой студент вполне может иметь несколько интересных ему занятий,
+ровно как и некоторым занятием могут увлекаться несколько человек.
+
 В этой связи в математике отдельно рассматриваются и подмножества $ X \times Y $,
 не обязательно обладающие свойством функциональности~--- \defemph{бинарные отношения}.
 
@@ -19,7 +21,6 @@
     \label{definition:binary_relations:binary_relation}
     \defemph{Бинарным отношением} между двумя множествами $ A $ и $ B $ называется любое множество $ R \subseteq A \times B $.
     Если $ A = B $, то $ R \subseteq A^2 $ и говорят, что бинарное отношение задано на множестве $ A $.
-    \newline
     Принадлежность $ (a, b) \in R $ кратко записывают как $ a R b $.
 \end{definition}
 
@@ -31,7 +32,6 @@
 
 Помимо свойства функциональности бинарное отношение может обладать целым набором других интересных свойств.
 Перечислим наиболее важные из них:
-
 \begin{definition}
     \label{definition:binary_relations:types_AB}
     Пусть $ R \subseteq A \times B $.
@@ -43,11 +43,11 @@
         \item \defemph{сюръективным} в случае $ \forall b \in B \;\; \exists a \in A: \; a R b $.
     \end{enumerate}
 \end{definition}
-
 Используя \ref{definition:binary_relations:types_AB}, легко дать определение, например, инъекции,
 как функционального тотального инъективного бинарного отношения.
 
-Еще большим числом особых свойств могут обладать бинарные отношения, заданные на некотором множестве.
+Еще большим числом особых свойств могут обладать бинарные отношения,
+заданные на одном множестве.
 \begin{definition}
     \label{definition:binary_relations:types_AA}
     Пусть $ R \subseteq A^2 $.
@@ -64,7 +64,7 @@
 \end{definition}
 
 \begin{remark}
-    Любое рефлексивное (как и антирефлексивное) бинарное отношение по определению является тотальным и сюръективным.
+    Любое рефлексивное бинарное отношение по определению является тотальным и сюръективным.
 \end{remark}
 
 Множество уже известных вам математических объектов и операций по сути являются бинарными отношениями.
@@ -98,12 +98,65 @@
     $ R^{-1} = \{(b, a) \mid a R b \} \subseteq B \times A $.
 \end{definition}
 
+\begin{Exercise}[counter=SecExercise, label={exercise:relations:is_function}]
+    \noindent
+    Нарисуйте двудольный граф, соответсвующий бинарному отношению
+    $ R \subseteq \{a, b, c, d, e\} \times \{1, 2, 3, 4, 5, 6\} $:
+    \[
+        R = \{ (a, 1), (a, 2), (b, 4), (c, 3), (d, 5) \}
+    \]
+    \begin{enumerate}[label=\textbf{\alph*)}]
+        \item Является ли $ R $ функцией?
+        \inlineitem Является ли $ R^{-1} $ функцией?
+    \end{enumerate}
+\end{Exercise}
+
+\begin{Answer}
+    \noindent
+    Граф приведён на рисунке \ref{fig:relations:from_is_function}.
+    \begin{enumerate}[label=\textbf{\alph*)}]
+        \item
+            Нет, не является, так как $ (a, 1) \in R $ и $ (a, 2) \in R $.
+        \item
+            Да, является, так как $ \forall b \in \{1, \ldots, 6 \} $
+            множество $ \{ a \mid b R^{-1} a \} $ содержит не более одного элемента.
+    \end{enumerate}
+\end{Answer}
+
+\begin{figure}[ht!]
+    \center
+    \begin{tikzpicture}
+        \node[circle,fill,inner sep=1.5pt,label=left:$ a $] (a)  at (0,-0.5) {};
+        \node[circle,fill,inner sep=1.5pt,label=left:$ b $] (b)  at (0,-1.5) {};
+        \node[circle,fill,inner sep=1.5pt,label=left:$ c $] (c)  at (0,-2.5) {};
+        \node[circle,fill,inner sep=1.5pt,label=left:$ d $] (d)  at (0,-3.5) {};
+        \node[circle,fill,inner sep=1.5pt,label=left:$ e $] (e)  at (0,-4.5) {};
+
+        \node[circle,fill,inner sep=1.5pt,label=right:$ 1 $] (u1)  at (2,0) {};
+        \node[circle,fill,inner sep=1.5pt,label=right:$ 2 $] (u2)  at (2,-1) {};
+        \node[circle,fill,inner sep=1.5pt,label=right:$ 3 $] (u3)  at (2,-2) {};
+        \node[circle,fill,inner sep=1.5pt,label=right:$ 4 $] (u4)  at (2,-3) {};
+        \node[circle,fill,inner sep=1.5pt,label=right:$ 5 $] (u5)  at (2,-4) {};
+        \node[circle,fill,inner sep=1.5pt,label=right:$ 6 $] (u6)  at (2,-5) {};
+
+        \path [->] (a) edge node {}  (u1);
+        \path [->] (a) edge node {}  (u2);
+        \path [->] (b) edge node {}  (u4);
+        \path [->] (c) edge node {}  (u3);
+        \path [->] (d) edge node {}  (u5);
+    \end{tikzpicture}
+    \caption{граф отношения $ R $ из задачи \ref{exercise:relations:is_function}}
+    \label{fig:relations:from_is_function}
+\end{figure}
+
+
 \begin{definition}
     \defemph{Композицией} двух бинарных отношений $ R \subseteq A \times B $ и $ Q \subseteq B \times C $
-    называется бинарное отношение $ (Q \circ P) = \{ (a, c) \mid \exists b \in B: \; a R b \wedge b R c \} $.
-    \newline
-    \textit{Акцентируем особое внимание на порядок записи отношений в композиции.
-    Он повторяет порядок записи функций в композиции.}
+    называется бинарное отношение $ (Q \circ P) = \{ (a, c) \mid \exists b \in B: \; a R b \wedge b Q c \} $.
+    %\newline
+    \\[0.25\baselineskip]
+    Акцентируем особое внимание на порядок записи отношений в композиции.
+    Он повторяет порядок записи функций в композиции.
 \end{definition}
 
 \begin{Exercise}[counter=SecExercise]
