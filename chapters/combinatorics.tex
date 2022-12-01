@@ -101,8 +101,8 @@
 \begin{lemma}
     Если $ \displaystyle A = \bigcup_{i=1}^n A_i $, то
     \[
-        |A| = \sum_{k=1}^n (-1)^{k+1} \left( \sum_{S \in \mathcal{C}_k} \left| \bigcap_{A \in S} A \right| \right), \qquad
-        \mathcal{C}_k = \begin{pmatrix} \{ A_1, A_2, \ldots, A_n \} \\ k \end{pmatrix}
+        |A| = \sum_{k=1}^n (-1)^{k+1} \left( \sum_{S \in \mathcal{C}_k} \left| \bigcap_{A' \in S} A' \right| \right), \qquad
+        \mathcal{C}_k = \binom{\{ A_1, A_2, \ldots, A_n \}}{k}
     \]
 \end{lemma}
 
@@ -788,7 +788,7 @@
         \item
             $ \displaystyle \sum_{j=0}^n \binom{j}{k} = \binom{n+1}{k+1} $.
 
-            В правой части записано число способов выбрать из $ (n+1) $-элементного множества подмножество размера $ k - 1 $.
+            В правой части записано число способов выбрать из $ (n+1) $-элементного множества подмножество размера $ k + 1 $.
             Заметим, что и в левой части записано то же число.
 
             Действительно, упорядочим произвольным образом исходное множество.
@@ -888,7 +888,7 @@
     \]
     где
     \[
-        \binom{n}{k_1, \; k_2, \; \ldots, \; k_m} = \binom{n}{k_1} \cdot \binom{n - k_1}{k_2} \cdot \ldots \cdot \binom{n - k_1 - \ldots - k_m}{k_m} =
+        \binom{n}{k_1, \; k_2, \; \ldots, \; k_m} \defeq \binom{n}{k_1} \cdot \binom{n - k_1}{k_2} \cdot \ldots \cdot \binom{n - k_1 - \ldots - k_m}{k_m} =
         \frac{n!}{k_1! k_2! \ldots k_m!}
     \]
     --- \defemph{мультиномиальный коэффициент}.
