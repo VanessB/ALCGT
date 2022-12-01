@@ -84,7 +84,7 @@
 \end{example}
 
 Булевы функции можно также задавать при помощи формул, <<собирая>> из других связок.
-Фообще говоря, формула является деревом, задающим порядок применения составляющих формулу связок к аргументам и к значениям других связок.
+Вообще говоря, формула является деревом, задающим порядок применения составляющих формулу связок к аргументам и к значениям других связок.
 Однако такой взгляд на вещи полностью эквивалентен стандартному написанию математических формул, если задать приоритет операций, или просто использовать скобки.
 Приоритет изученных связок указан в таблице \ref{tab:boolean:full_info}, пример формулы и соответствующего ей дерева~--- на рис. \ref{fig:boolean:tree_example}.
 
@@ -109,42 +109,42 @@
 
 
 \begin{figure}[ht!]
-\center
-\begin{tikzpicture}[level distance=1.5cm,
-    level 1/.style={sibling distance=4cm},
-    level 2/.style={sibling distance=2cm},
-    level 4/.style={sibling distance=1cm}
-    %edge from parent/.style={draw, edge from parent path={(\tikzparentnode) -- (\tikzchildnode)}}
-]
-\tikzstyle{every node}=[circle,draw]
+    \center
+    \begin{tikzpicture}[level distance=1.5cm,
+        level 1/.style={sibling distance=4cm},
+        level 2/.style={sibling distance=2cm},
+        level 4/.style={sibling distance=1cm}
+        %edge from parent/.style={draw, edge from parent path={(\tikzparentnode) -- (\tikzchildnode)}}
+    ]
+    \tikzstyle{every node}=[circle,draw]
 
-\node (Root) {$ \leftrightarrow $}
-    child {
-        node {$ \rightarrow $}
+    \node (Root) {$ \leftrightarrow $}
         child {
-            node {$ \vee $}
+            node {$ \rightarrow $}
             child {
-                node {$ \neg $}
-                child { node[red] { $x_1 $} }
+                node {$ \vee $}
+                child {
+                    node {$ \neg $}
+                    child { node[red] { $x_1 $} }
+                }
+                child {
+                    node {$ \wedge $ }
+                    child { node[red] { $ x_2 $ } }
+                    child { node[red] { $ x_3 $ } }
+                }
             }
-            child {
-                node {$ \wedge $ }
-                child { node[red] { $ x_2 $ } }
-                child { node[red] { $ x_3 $ } }
-            }
+            child { node[red] {$ x_4 $} }
         }
-        child { node[red] {$ x_4 $} }
-    }
-    child {
-        node {$ \oplus $}
-        child { node[red] {$ x_5 $} }
-        child { node[red] {$ x_6 $} }
-    };
+        child {
+            node {$ \oplus $}
+            child { node[red] {$ x_5 $} }
+            child { node[red] {$ x_6 $} }
+        };
 
-\end{tikzpicture}
-\caption{дерево формулы $ \neg x_1 \vee x_2 \wedge x_3 \rightarrow x_4 \leftrightarrow x_5 \oplus x_6 $
-(или, что то же самое, $ (((\neg x_1) \vee (x_2 \wedge x_3)) \rightarrow x_4) \leftrightarrow (x_5 \oplus x_6) $)}
-\label{fig:boolean:tree_example}
+    \end{tikzpicture}
+    \caption{дерево формулы $ \neg x_1 \vee x_2 \wedge x_3 \rightarrow x_4 \leftrightarrow x_5 \oplus x_6 $
+    (или, что то же самое, $ (((\neg x_1) \vee (x_2 \wedge x_3)) \rightarrow x_4) \leftrightarrow (x_5 \oplus x_6) $)}
+    \label{fig:boolean:tree_example}
 \end{figure}
 
 \FloatBarrier
@@ -506,3 +506,536 @@
 %\begin{Answer}
 %    \noindent
 %\end{Answer}
+
+
+
+\subsection{Булевы схемы}
+\label{subsec:boolean:schemes}
+
+Данная тема посвящена более глубокому изучению булевых функций и способов их задания.
+Здесь мы формально рассмотрим булевы формулы, введём понятие булевой схемы.
+Для всего этого потребуется материал следующих глав (множества, функции, ориентированные графы),
+поэтому к данному разделу предлагается вернуться после изучения упомянутых тем.
+
+Ранее уже говорилась, что булеву формулу можно интерпретировать как дерево,
+задающее порядок применения логических связок.
+Однако не было явно сказано, какие именно математические средства используются для <<задания>> и <<хранения>> этого порядка.
+Решим эту проблему, дав формальное определение более общей структуры~--- \defemph{булевой схемы}.
+
+\begin{definition}
+    \label{definition:boolean:boolean_scheme}
+    Зафиксируем некоторое множество булевых функций $ B $, которое далее будем называть \defemph{базисом}.
+    \\[0.25\baselineskip]
+    \defemph{Булевой схемой} в базисе $ B $ называется последовательность присвоений,
+    которая начинается со всех переменных $ x_1, x_2, \ldots, x_n $, используемых схемой,
+    и продолжается присваиваниями $ s_{n+1}, s_{n+2}, \ldots, s_m $,
+    где каждое присваивание имеет вид $ s_i = g(s_{j_1} , s_{j_2}, \ldots, s_{j_k} ) $,
+    где $ j_1, \ldots, j_k < i $, $ g \in B $;
+    под $ s_1, \ldots, s_n $ понимаются переменные $ x_1, \ldots, x_n $.
+    Булева схема задаёт булеву функцию $ f(x_1, \ldots, x_n) $,
+    значение которой совпадает со значением последнего присваивания $ s_m $ (после проделанных вычислений).
+\end{definition}
+
+\begin{definition}
+    \label{definition:boolean:standard_basis}
+    Базис $ B = \{ \vee, \wedge, \neg \} $ называется \defemph{стандартным}.
+\end{definition}
+
+Говоря неформально, главное отличие схем от формул~--- в схемах возможно <<переиспользование>> промежуточных результатов.
+Формализуем это.
+
+\begin{definition}
+    \label{definition:boolean:boolean_formula}
+    \defemph{Булевой формулой} называется булева схема,
+    в кторой ни одно присваивание, кроме переменных, не используется дважды в правой части присваиваний.
+\end{definition}
+
+\begin{statement}
+    \label{statement:boolean:scheme_to_formula}
+    Любую булеву схему можно преобразовать к формуле,
+    разделив дважды и более используемые присваивания на несколько отдельных.
+\end{statement}
+
+Вернёмся к вопросу о связи формул и схем с их графическим представлением.
+Держа в уме определения теории графов, можно сформулировать и доказать следующее утверждение:
+
+\begin{statement}
+    \label{statement:boolean:schemes_to_graphs}
+    Если все функции базиса сохраняют своё значение при любой перестановке любого вектора аргументов
+    (для бинарных операций это означает их коммутативность),
+    то булеву схему можно представить в виде ориентированного ациклического графа.
+    Вершинам соответствуют присваивания, рёбрам~--- подстановки в качестве аргументов;
+    при этом топологическая сортировка порождает допустимый порядок присвоений.
+    \\[0.25\baselineskip]
+    Если булева схема является формулой,
+    то соответствующий ей граф при удалении вершин-переменных и ориентации рёбер будет деревом.
+\end{statement}
+
+Упомянутое в утверждении условие на функции базиса важно,
+так как входящие в вершину рёбра неразличимы между собой.
+
+\begin{Exercise}[counter=SecExercise, label={exercise:boolean:graph_to_function}]
+    \noindent
+    Найдите функцию, которую вычисляет схема в стандартном базисе, представленная графически на рис. \ref{fig:boolean:scheme_example}.
+\end{Exercise}
+
+\begin{figure}[ht!]
+    \center
+    \begin{tikzpicture}[scale=1, transform shape]
+        \tikzstyle{every node}=[circle,draw, minimum size=0.5cm]
+        \node (s1)  at (0,0) {$ x_1 $};
+        \node (s2)  at (0,2) {$ x_2 $};
+        \node (s3)  at (0,4) {$ x_3 $};
+
+        \node (s4)  at (2,0) {$ \vee $};
+        \node (s5)  at (2,4) {$ \neg $};
+
+        \node (s6)  at (4,0) {$ \wedge $};
+        \node (s7)  at (4,2) {$ \wedge $};
+
+        \node (s8)  at (6,4) {$ \wedge $};
+
+        \node (s9)  at (8,2) {$ \vee $};
+
+        \path [->] (s1) edge  (s4);
+        \path [->] (s2) edge  (s4);
+        \path [->] (s3) edge  (s5);
+
+        \path [->] (s4) edge  (s6);
+        \path [->] (s3) edge  (s6);
+        \path [->] (s1) edge  (s7);
+        \path [->] (s2) edge  (s7);
+
+        \path [->] (s5) edge  (s8);
+        \path [->] (s7) edge  (s8);
+
+        \path [->] (s6) edge  (s9);
+        \path [->] (s8) edge  (s9);
+    \end{tikzpicture}
+    \caption{Пример булевой схемы в стандартном базисе.}
+    \label{fig:boolean:scheme_example}
+\end{figure}
+
+\begin{Answer}
+    \noindent
+    Идя от последнего присваивания вниз к переменным, выписываем формулу.
+    Если какая-то вершина уже встречалось ранее в правой части присваивания,
+    <<копируем>> соответствующую часть формулы.
+    \[
+        f(x_1, x_2, x_3) = \left[ (x_1 \vee x_2) \wedge x_3 \right] \vee \left[ (x_1 \wedge x_2) \wedge \neg x_3 \right]
+    \]
+    Можно заметить, что переиспользований не было;
+    данная булева изначально ялвяется формулой.
+    В качестве упражнения роверьте справедливость утверждения \ref{statement:boolean:schemes_to_graphs}.
+\end{Answer}
+
+
+\begin{Exercise}[counter=SecExercise, label={exercise:boolean:f_existance}]
+    \noindent
+    Существует ли такая булева функция $ f $ от двух переменных,
+    что схема в базисе $ \{\wedge, f \} $
+    \[
+        x_1, \; x_2, \; s_3 = f(x_1, x_2), \; s_4 = f(x_2, x_1), \; s_5 = s_3 \wedge s_4
+    \]
+    вычисляет \textbf{а)} функцию $ x_1 $? \textbf{б)} функцию $ x_1 \oplus x_2 $?
+\end{Exercise}
+
+\begin{Answer}
+    \noindent
+    \begin{enumerate}[label=\textbf{\alph*)}]
+        \item
+            Заметим, что схема симметрична относительно перестановки $ x_1 $ и $ x_2 $.
+            Из этого следует, что вычисляемая функция также должна быть симметрична относительно перестановки аргументов местами.
+            Но для функции $ x_1 $ это неверно.
+            Значит, ответ~--- нет.
+        \item
+            Да, $ f(x_1, x_2) = x_1 \oplus x_2 $.
+            Тогда схема эквивалентна формуле
+            \[
+                f(x_1, x_2) \wedge f(x_2, x_1) = (x_1 \oplus x_2) \wedge (x_2 \oplus x_1) = x_1 \oplus x_2
+            \]
+    \end{enumerate}
+\end{Answer}
+
+
+\begin{Exercise}[counter=SecExercise, label={exercise:boolean:move_negation_to_arguments}]
+    \noindent
+    Докажите, что всякую булеву схему в стандартном базисе размера $ m $ с $ n $ переменными можно переделать в булеву схему размера не более $ 2 \cdot m $,
+    вычисляющую ту же формулу, и в которой все отрицания применяются только к переменными.
+\end{Exercise}
+
+\begin{Answer}
+    \noindent
+    Приведём явный алгоритм данного преобразования.
+    Для каждой схемы введём $ q $~--- суммарное число связок $ \vee $ и $ \wedge $,
+    $ p $~--- число связок $ \neg $,
+    а также $ k $~--- такое число,
+    что все присваивания начиная с $ (k + 1) $-го гарантированно не являются отрицаниями.
+    Изначально $ k $ положим равным $ m $, так как последнее присваивание может быть отрицанием.
+    Также введём число $ d $, равное числу связок $ \vee $ и $ \wedge $, имеющих номер, не больший $ k $.
+
+    Алгоритм построен так, что $ d $ и $ k $ не увеличиваются, $ q $ не меняется.
+    Непосредственно описание алгоритма приведено ниже:
+    \begin{enumerate}
+        \item $ k \leftarrow m $, $ d \leftarrow q = m - n - p $.
+        \item
+            Если $ d = 0 $, то нет ни одного отрицания, применяемого к конъюнкции или дизъюнкции.
+            Тогда алгоритм завершается.
+
+            В противном случае рассмотрим $ k $-ое присвоение.
+            Имеем следующие варианты, чем оно является:
+            \begin{enumerate}
+                \item[$ x_i $]
+                    Реализация данного случая возможна,
+                    только если в схеме не осталось отрицаний.
+                    Таким образом, алгоритм завершается.
+                \item[$ \vee $, $ \wedge $]
+                    Данное присвоение не является результатом отрицания.
+                    Можем уменьшить $ k $ и $ d $ на единицу.
+                    Схему оставляем неизменной.
+                \item[$ \neg $]
+                    Рассмотрим, к чему применяется отрицание.
+                    Имеем следующие варианты:
+                    \begin{enumerate}
+                        \item[$ \neg $]
+                            Пользуясь тождеством $ \neg \neg x $, убираем два отрицания.
+                            Числа $ p $ и $ k $ уменьшаются на два,
+                            число остальных связок не меняется;
+                            $ d $ также неизменно.
+                        \item[$ \vee $, $ \wedge $]
+                            Пользуясь законами де Моргана,
+                            вносим отрицание в аргументы связки;
+                            тем самым $ p $ увеличивается на единицу, $ k $ не меняется, $ d $ уменьшается на единицу.
+                            Поскольку обязательно $ d \geqslant 0 $,
+                            данный пункт реализуется не более $ q = const $ раз.
+                        \item[$ x_i $]
+                            Рассматриваемое отрицание уже применяется к переменной.
+                            Изменим нумерацию в схеме так, чтобы выбранное отрицание стояло до любой из связок $ \vee $ или $ \wedge $
+                            (если это уже так, ничего делать не надо).
+                            Данный пункт реализуется не более $ m $ раз,
+                            поскольку число таких отрицаний не превышает $ k \leqslant m $,
+                            и каждое из них рассматривается единожды.
+                    \end{enumerate}
+            \end{enumerate}
+        \item
+            Перейти к предыдущему пункту.
+    \end{enumerate}
+
+    Алгоритм завершит свою работу, так как $ k $ не может быть отрицательным,
+    а на каждом шаге оно не увеличивается;
+    при этом число шагов, на которых $ k $ оставалось неизменным, ограничено.
+
+    В ходе работы алгоритма $ q $ оставалось неизменным,
+    а $ p $ либо уменьшалось на $ 2 $ за какие-то шаги,
+    либо увеличивалось на $ 1 $ за шаги, когда $ k $-ое присвоение являлось отрицанием конъюнкции или дизъюнкции;
+    второй вариант реализовался не более $ m $ раз.
+    Таким образом, размер схемы увеличится не более, чем в два раза.
+\end{Answer}
+
+
+
+\subsection{Классы булевых функций}
+\label{subsec:boolean:boolean_functions_classes}
+
+В прошлом разделе мы ввели понятие булевой схемы, заданной некоторым базисом.
+Связь описательной способности булевых схем с базисом очевидна:
+если базис слишком <<беден>> (например, состоит из одного только отрицания),
+далеко не все булевы функции представимы в виде схемы в выбранном базисе.
+В данном разделе эта связь будет исследована полее подробно и формально.
+Начнём с определений.
+
+
+\begin{definition}
+    \label{definition:boolean:all_boolean_functions}
+    Определим\footnote{Это исключительно авторское обозначение. Не рекомендуется использовать без определения.}
+    \defemph{множество всех булевых функций} от конечного числа переменных:
+    $ \boolfun \defeq \bigcup_{k=0}^\infty \{0, 1\}^k \times \{0, 1\} $.
+\end{definition}
+
+
+\begin{definition}
+    \label{definition:boolean:closure}
+    \defemph{Замыканием} $ \closure (B) $ некоторого базиса $ B \subseteq \boolfun $ будем называть множество булевых функций,
+    представимых в виде схемы в данном базисе.
+    \\[0.25\baselineskip]
+    Множество $ B $ булевых функций называется \defemph{замкнутым} в случае $ B = \closure (B) $.
+\end{definition}
+
+
+\begin{statement}
+    \label{statement:boolean:closure_is_closed}
+    Замыкание любого множества функций замкнуто.
+    Иначе говоря, $ \forall B \subseteq \boolfun \;\, \closure(B) = \closure(\closure(B)) $.
+\end{statement}
+
+
+\begin{definition}
+    \label{definition:boolean:complete_class}
+    Множество $ B $ булевых функций называется \defemph{полным} в случае $ \closure (B) = \boolfun $.
+\end{definition}
+
+
+Оказывается, один полный базис нам уже известен.
+Это стандартный базис.
+Для того, чтобы доказать его полноту, введём несколько впомогательных определений.
+
+\begin{definition}
+    \label{definition:boolean:literal}
+    \defemph{Литералом} называют переменную или отрицание переменной.
+    Введём следующие обозначения для литералов: $ x^0 = \neg x $, $ x^1 = x $.
+\end{definition}
+
+\begin{definition}
+    \label{definition:boolean:clause}
+    \defemph{Конъюнктом} и \defemph{дизъюнктом} называют конъюнкцию и дизъюнкцию литералов соответственно:
+    \[
+        C = l_1 \wedge l_2 \wedge \ldots \wedge l_n, \qquad D = l_1 \vee l_2 \vee \ldots \vee l_m
+    \]
+\end{definition}
+
+
+\begin{remark}
+    \label{remark:boolean:clause_true_false}
+    Конъюнкт $ x_1^{\alpha_1} \wedge x_2^{\alpha_2} \wedge \ldots \wedge x_n^{\alpha_n} $ принимает истинное значение только на наборе $ x_i = \alpha_i $.
+    Дизъюнкт $ x_1^{\alpha_1} \vee x_2^{\alpha_2} \vee \ldots \vee x_m^{\alpha_m} $ принимает ложное значение только на наборе $ x_i = \neg \alpha_i $.
+\end{remark}
+
+
+\begin{definition}
+    \label{definition:DNF_CNF}
+    Формулы вида
+    \[
+        \bigvee_{(\alpha_1, \ldots, \alpha_n) \in \mathcal{A}} x_1^{\alpha_1} \wedge x_2^{\alpha_2} \wedge \ldots \wedge x_n^{\alpha_n}
+        \qquad
+        \bigwedge_{(\alpha_1, \ldots, \alpha_n) \in \mathcal{A}} x_1^{\alpha_1} \vee x_2^{\alpha_2} \vee \ldots \vee x_n^{\alpha_n}
+    \]
+    называются \defemph{дизъюнктивной} и \defemph{конъюнктивной нормальными формами} соответственно.
+    Здесь $ \mathcal{A} \subseteq \{0, 1\}^n $.
+\end{definition}
+
+
+\begin{theorem}
+    \label{theorem:boolean:standard_basis_complete}
+    Стандартный базис является полным, то есть $ \closure(\{\vee, \wedge, \neg\}) = \boolfun $.
+\end{theorem}
+
+\begin{proof}
+    Пусть имеется произвольная булева функция $ f: \{0, 1\}^n \rightarrow \{0, 1\} $.
+    Заметим, что
+    \[
+        f(x_1, \ldots, x_n) = \bigvee_{(\alpha_1, \ldots, \alpha_n) \in f^{-1}(1)} x_1^{\alpha_1} \wedge x_2^{\alpha_2} \wedge \ldots \wedge x_n^{\alpha_n}
+    \]
+    Действительно, согласно замечанию \ref{remark:boolean:clause_true_false},
+    каждый конъюнкт принимает истинное значение только на одном наборе значений переменных.
+    По построению этот набор является выполняющим набором для функции $ f $.
+    Также из определения полного прообраза $ f^{-1}(1) $ следует, что все подобные наборы были рассмотрены.
+\end{proof}
+
+Для доказательства было использовано разложение в ДНФ.
+Точно также можно было бы представить функцию и в виде КНФ.
+
+\begin{Exercise}[counter=SecExercise, label={exercise:boolean:DNF_example}]
+    \noindent
+    Разложите в ДНФ и КНФ булеву функцию, заданную вектором
+    значений: $ f(x_1, x_2, x_3) = 10100101 $.
+\end{Exercise}
+
+\begin{Answer}
+    \noindent
+    Облегчим себе жизнь, заметив, что $ x_2 $~--- фиктивная переменная.
+    Пользуясь алгоритмом из теоремы \ref{theorem:boolean:standard_basis_complete},
+    \[
+        f(x_1, x_2, x_3) = (\neg x_1 \wedge \neg x_3) \vee (x_1 \wedge x_3) = (\neg x_1 \vee x_2) \wedge (x_1 \vee \neg x_2)
+    \]
+\end{Answer}
+
+
+\begin{corollary}
+    \label{corollary:boolean:substandard_basis_complete}
+    Базисы $ \{ \vee, \neg \} $ и $ \{ \wedge, \neg \} $ полны.
+\end{corollary}
+
+\begin{proof}
+    Следует из законов де Моргана и полноты стандартного базиса
+\end{proof}
+
+
+\begin{corollary}
+    \label{corollary:boolean:Zhegalkin_basis_complete}
+    Базис $ \{ 1, \oplus, \wedge \} $ полон.
+\end{corollary}
+
+\begin{proof}
+    Аналогично, используя $ \neg x = 1 \oplus x $.
+\end{proof}
+
+
+\begin{definition}
+    \label{definition:boolean:Zhegalkin_polynomials}
+    Формулы, заданные в базисе $ \{1, \oplus, \wedge \} $, называются \defemph{полиномами Жегалкина}.
+\end{definition}
+
+Следствия выше демонстрируют один из способов доказательства полноты базиса, а именно сведение к стандартному базису.
+Однако открытым остаётся вопрос, как доказывать неполноту.
+Оказывется, для этого есть специальная теорема.
+Прежде чем к ней перейти, определим так называемые \defemph{классы Поста}:
+
+\begin{definition}
+    \label{definition:boolean:Post_classes}
+    \defemph{Классами Поста} называются следующие пять множеств булевых функций:
+    \begin{enumerate}
+        \item[($ M $)] \defemph{Монотонные функции}:
+            \[
+                M = \{ f \in \boolfun \mid \forall x_1, x_2 \in \{0, 1\}^n \;\, (x_1 \leqslant x_2) \rightarrow (f(x_1) \leqslant f(x_2)) \},
+            \]
+            где порядок на $ \{0, 1\}^n $ берётся покоординатный.
+        \item[($ L $)] \defemph{Линейные функции}: $ L = \closure(\{1, \oplus\}) $.
+        \item[($ T_0 $)] \defemph{Функции, сохраняющие ноль}: $ T_0 = \{ f \in \boolfun \mid f(0, \ldots, 0) = 0 \} $.
+        \item[($ T_1 $)] \defemph{Функции, сохраняющие единицу}: $ T_1 = \{ f \in \boolfun \mid f(1, \ldots, 1) = 1 \} $.
+        \item[($ S $)] \defemph{Самодвойственные функции}: $ M = \left\{ f \in \boolfun \mid \neg f(\neg x_1, \ldots, \neg x_n) = f(x_1, \ldots, x_n) \right\} $
+    \end{enumerate}
+\end{definition}
+
+\begin{theorem}[Поста]
+    \label{theorem:boolean:Post}
+    Замкнутое множество булевых функций является неполным тогда и только тогда, когда содержится в одном из классов Поста.
+\end{theorem}
+
+
+\begin{Exercise}[counter=SecExercise, label={exercise:boolean:preserves_0_1}]
+    \noindent
+    Сколько имеется булевых функций от $ n $ переменных,
+    сохраняющих одновременно <<$ 0 $>> и <<$ 1 $>>?
+\end{Exercise}
+
+\begin{Answer}
+    \noindent
+    Условие сохранения <<$ 0 $>> и <<$ 1 $>> <<блокирует>> первую и последнюю из $ 2^n $ строк в таблице истинности;
+    на остальных же наборах переменных данные функции могут принимать произвольные значения.
+    Тогда ответ~--- $ 2^{2^n - 2} $.
+\end{Answer}
+
+
+\begin{Exercise}[counter=SecExercise, label={exercise:boolean:Post_example}]
+    \noindent
+    Являются ли полными следующие базисы?
+    При отрицательном ответе укажите, в каких из классов $ T_0 $, $ T_1 $, $ M $, $ L $, $ S $ лежит замыкание базиса.
+    \begin{enumerate}[label=\textbf{\alph*)}]
+        \item $ \{ \neg, \rightarrow \} $, где $ \rightarrow $~--- импликация;
+        \item $ \{ \downarrow \} $, где $ x \downarrow y $ равна $ \neg x \wedge \neg y $ (стрелка Пирса);
+        \item $ \{ \wedge, \vee, \setminus \} $, где $ x \setminus y $ равна $ x \wedge \neg y $;
+        \item $ \{ 1, \oplus \} $;
+        \item $ \{ \neg, \leftrightarrow \} $, где $ x \leftrightarrow y $ равна $ (x \rightarrow y) \wedge (y \rightarrow x) $.
+    \end{enumerate}
+\end{Exercise}
+
+\begin{Answer}
+    \noindent
+    \begin{enumerate}[label=\textbf{\alph*)}]
+        \item
+            Базис полный, так как $ \neg x \rightarrow y = x \vee y $,
+            а потому $ \closure(\{\neg, \rightarrow\}) = \closure(\{\neg, \vee\}) = \boolfun $.
+        \item
+            Базис полный, так как $ x \downarrow x = \neg x $,
+            $ \neg x \downarrow \neg y = x \wedge y $,
+            а потому $ \closure(\{ \downarrow \}) = \closure(\{\neg, \downarrow\}) = \closure(\{\neg, \wedge\}) = \boolfun $.
+        \item
+            Нет, данный базис неполный: все функции сохраняют ноль.
+            При этом $ \wedge \notin L, S $; $ \setminus \notin T_1, M $.
+            Таким образом, базис целиком лежит только в одном классе: $ \{\wedge, \vee, \setminus \} \subseteq T_0 $.
+        \item
+            Нет, данный базис неполный: все функции линейны.
+            При этом $ 1 \notin T_0, S $; $ \oplus \notin M, T_1 $.
+        \item
+            Нет, данный базис неполный: все функции линейны: $ \neg x = 1 \oplus x $, $ x \leftrightarrow y = 1 \oplus x \oplus y $.
+            При этом $ \neg \notin T_0, T_1 $; $ \leftrightarrow \notin S, M $.
+    \end{enumerate}
+\end{Answer}
+
+
+\begin{Exercise}[counter=SecExercise, label={exercise:boolean:linear_closure}]
+    \noindent
+    Постройте замыкание базиса $ \{\neg, \oplus\} $.
+\end{Exercise}
+
+\begin{Answer}
+    \noindent
+    Заметим, что $ 1 = \neg (x \oplus x) $ и $ \neg x = 1 \oplus x $.
+    Отсюда следует, что $ \closure(\{\neg, \oplus\}) \subseteq \closure(\{1, \oplus\}) $ и $ \closure(\{1, \oplus\}) \subseteq \closure(\{\neg, \oplus\}) $.
+    Значит, $ \closure(\{\neg, \oplus\}) = \closure(\{1, \oplus\}) = L $.
+\end{Answer}
+
+\begin{Exercise}[counter=SecExercise, label={exercise:boolean:monotonous_and_MAJ}]
+    \noindent
+    Назовём функцией большинства $ \text{MAJ}(x_1, x_2,\ldots , x_n) $ булеву функцию,
+    значение которой совпадает с тем значением,
+    которое принимает большинство переменных (если мнения разделились поровну, $ \text{MAJ} = 0 $).
+    Схемы в базисе $ \{\vee, \wedge, 1, 0 \} $ называются монотонными.
+    Вычисляется ли $ \text{MAJ} $ монотонной схемой?
+\end{Exercise}
+
+\begin{Answer}
+    \noindent
+    Да, вычисляется.
+    Заметим, что
+    \[
+        \text{MAJ}(x_1, \ldots, x_n) = \bigvee_{I \in \binom{\{1, \ldots, m\}}{\lfloor n/2 \rfloor + 1}} \bigwedge_{i \in I} x_i
+    \]
+    Действительно, любой набор значений $ x_1, \ldots, x_n $, в котором единиц большинство, выполняет хотя бы один конъюнкт справа.
+    Также любой набор значений входных переменных, выполняющий правую формулу, содержит более $ n/2 $ единиц,
+    из чего следует выполнение на нём же и $ \text{MAJ} $.
+    Таким образом, получена ДНФ без отрицаний, что и требовалось по условию.
+\end{Answer}
+
+
+\begin{Exercise}[counter=SecExercise, label={exercise:boolean:self_dual}]
+    \noindent
+    \begin{enumerate}[label=\textbf{\alph*)}]
+        \item
+            Являются ли самодвойственными функции $ x_1 \vee x_2 $, $ x_1 \wedge x_2 $?
+        \item
+            Докажите, что схема в базисе, состоящем из самодвойственных функций,
+            вычисляет самодвойственную функцию.
+    \end{enumerate}
+\end{Exercise}
+
+\begin{Answer}
+    \noindent
+    \begin{enumerate}[label=\textbf{\alph*)}]
+        \item
+            Нет: $ \neg(\neg x_1 \vee \neg x_2) = x_1 \wedge x_2 \neq x_1 \vee x_2 $.
+        \item
+            Эквивалентное определение самодвойственности:
+            \[
+                \neg f(x_1, \ldots, x_n) = f(\neg x_1, \ldots, \neg x_n)
+            \]
+            Для начала перейдём от схемы к формуле.
+            Далее рассмотрим отрицание формулы и согласно эквивалентному определению самодвойственности будем <<спускать>> отрицания до тех пор,
+            пока не дойдём до аргументов.
+            Получим, что отрицание формулы равно формуле от отрицаний аргументов.
+            Это эквивалентно самодвойственности.
+    \end{enumerate}
+\end{Answer}
+
+
+\begin{Exercise}[counter=SecExercise, label={exercise:boolean:not_self_dual}]
+    \noindent
+    Пусть $ f(x_1, \ldots, x_n) $~--- несамодвойственная функция.
+    Докажите, что константы $ 0 $, $ 1 $ вычисляются в базисе $ \{\neg, f \} $.
+\end{Exercise}
+
+\begin{Answer}
+    \noindent
+    Раз $ f $ не самодвойственная,
+    $ \exists x_1, \ldots x_n: \neg f(\neg x_1, \ldots, \neg x_n) \neq f(x_1, \ldots, x_n) $.
+    Обозначим любой их таких наборов значений как $ \{ \alpha_i \} $.
+    Тогда заметим, что $ f(x^{\alpha_1}, \ldots, x^{\alpha_n}) = const $.
+    Действительно, если это не так, то либо $ f(x^{\alpha_1}, \ldots, x^{\alpha_n}) = x $,
+    либо $ f(x^{\alpha_1}, \ldots, x^{\alpha_n}) = \neg x $
+    (других булевых функций одной переменной нет).
+    Но $ f_1(x) = x $ и $ f_2(x) = \neg x $ самодвойственны.
+    Тогда $ f(1^{\alpha_1}, \ldots, 1^{\alpha_n}) = \neg f(0^{\alpha_1}, \ldots, 0^{\alpha_n}) $
+    что противоречит выбору $ \alpha_i $.
+    Значит $ f(x^{\alpha_1}, \ldots, x^{\alpha_n}) = const $,
+    а другую константу можно получить, взяв отрицание.
+\end{Answer}
